@@ -1,0 +1,662 @@
+`html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сбор данных - Алабуга и Большая Перемена</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                        url('https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 20px auto;
+            background: rgba(20, 25, 35, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 40px;
+            background: rgba(15, 20, 30, 0.9);
+            border-bottom: 2px solid rgba(76, 175, 80, 0.4);
+        }
+
+        .logos {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            height: 70px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: translateY(-3px);
+        }
+
+        .title {
+            text-align: center;
+            padding: 30px 20px 20px;
+        }
+
+        .title h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(45deg, #4CAF50, #2E7D32);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: #e0e0e0;
+            padding: 0 20px;
+        }
+
+        .content {
+            display: flex;
+            gap: 40px;
+            padding: 0 40px 40px;
+        }
+
+        .form-section {
+            flex: 1;
+            background: rgba(30, 35, 45, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .results-section {
+            flex: 1;
+            background: rgba(35, 40, 50, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #4CAF50;
+            text-align: center;
+            padding-bottom: 15px;
+border-bottom: 2px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #FFD700;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: 2px solid #444;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(45deg, #4CAF50, #2E7D32);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #43A047, #1B5E20);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .result-item h3 {
+            color: #FFD700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-item p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-left: 30px;
+        }
+
+        .share-section {
+            margin-top: auto;
+            padding: 20px;
+            background: rgba(30, 35, 50, 0.9);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .share-link {
+            display: flex;
+            margin-top: 15px;
+        }
+
+        .share-link input {
+            flex: 1;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .share-link button {
+            width: auto;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            background: linear-gradient(45deg, #2196F3, #0D47A1);
+            margin-top: 0;
+            padding: 0 20px;
+        }
+
+        .share-link button:hover {
+            background: linear-gradient(45deg, #1E88E5, #0D47A1);
+        }
+
+        .photo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .photo-preview {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 3px solid #4CAF50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+object-fit: cover;
+            display: none;
+        }
+
+        .photo-placeholder {
+            text-align: center;
+            color: #aaa;
+            font-size: 5rem;
+        }
+
+        .photo-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .photo-btn {
+            background: linear-gradient(45deg, #2196F3, #0D47A1);
+            width: auto;
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #4CAF50;
+            margin: 0 auto 15px;
+            display: block;
+        }
+
+        .cat-message {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 15px 20px;
+            border-radius: 15px;
+            max-width: 300px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-left: 5px solid #FF9800;
+            z-index: 5;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .cat-message:before {
+            content: "🐱";
+            margin-right: 10px;
+            font-size: 1.8rem;
+            vertical-align: middle;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+            background: rgba(15, 20, 30, 0.9);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @media (max-width: 900px) {
+            .content {
+                flex-direction: column;
+                padding: 0 20px 20px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .title h1 {
+                font-size: 2.2rem;
+            }
+
+            .logos {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                height: 50px;
+            }
+
+            .title h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .share-link {
+                flex-direction: column;
+            }
+
+            .share-link button {
+                border-radius: 8px;
+                margin-top: 10px;
+                padding: 12px;
+            }
+
+            .photo-preview {
+                width: 150px;
+                height: 150px;
+            }
+        }
+
+        .floating-cats {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-cat {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.1;
+            animation: floatCat 15s linear infinite;
+        }
+
+        @keyframes floatCat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+transform: translateY(-100px) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-cats">
+        <!-- Floating cats will be generated by JS -->
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logos">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Logo_alabuga.jpg/320px-Logo_alabuga.jpg" alt="Алабуга" class="logo">
+                <img src="https://большаяперемена.онлайн/static/img/bp-mono-white.svg" alt="Большая перемена" class="logo">
+            </div>
+            <h2>Сбор информации о пользователях</h2>
+        </header>
+
+        <div class="title">
+            <h1>Расскажи о себе!</h1>
+            <p>Заполни анкету, поделись своими интересами и мечтами. После заполнения ты получишь уникальную ссылку, которой сможешь поделиться с друзьями и наставниками.</p>
+        </div>
+
+        <div class="content">
+            <div class="form-section">
+                <h2 class="section-title"><i class="fas fa-user-edit"></i> Заполни информацию</h2>
+
+                <div class="photo-section">
+                    <div class="photo-preview">
+                        <div class="photo-placeholder"><i class="fas fa-camera"></i></div>
+                        <img id="photoPreview" src="" alt="Ваше фото">
+                    </div>
+                    <div class="photo-upload">
+                        <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+                        <button class="photo-btn" onclick="document.getElementById('photoUpload').click()">
+                            <i class="fas fa-upload"></i> Загрузить фото
+                        </button>
+                        <small>Макс. размер: 2MB</small>
+                    </div>
+                </div>
+
+                <form id="userForm">
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i> Как тебя зовут?</label>
+                        <input type="text" id="name" required placeholder="Введите ваше имя">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location"><i class="fas fa-map-marker-alt"></i> Откуда ты?</label>
+                        <input type="text" id="location" required placeholder="Ваш город или регион">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age"><i class="fas fa-birthday-cake"></i> Сколько тебе лет?</label>
+                        <input type="number" id="age" min="7" max="99" required placeholder="Ваш возраст">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="grade"><i class="fas fa-graduation-cap"></i> В каком ты классе?</label>
+                        <select id="grade" required>
+                            <option value="">Выберите класс</option>
+                            <option value="1">1 класс</option>
+                            <option value="2">2 класс</option>
+                            <option value="3">3 класс</option>
+                            <option value="4">4 класс</option>
+                            <option value="5">5 класс</option>
+                            <option value="6">6 класс</option>
+                            <option value="7">7 класс</option>
+                            <option value="8">8 класс</option>
+                            <option value="9">9 класс</option>
+                            <option value="10">10 класс</option>
+                            <option value="11">11 класс</option>
+                        </select>
+</div>
+
+                    <div class="form-group">
+                        <label for="favorites"><i class="fas fa-book"></i> Любимая книга/фильм/сериал</label>
+                        <textarea id="favorites" required placeholder="Расскажите о ваших предпочтениях в книгах, фильмах или сериалах"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dream"><i class="fas fa-star"></i> О чем ты мечтаешь?</label>
+                        <textarea id="dream" required placeholder="Поделитесь вашей мечтой"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hobbies"><i class="fas fa-heart"></i> Чем ты увлекаешься?</label>
+                        <textarea id="hobbies" required placeholder="Расскажите о ваших увлечениях и хобби"></textarea>
+                    </div>
+
+                    <button type="submit"><i class="fas fa-share-alt"></i> Сохранить и получить ссылку</button>
+                </form>
+            </div>
+
+            <div class="results-section">
+                <h2 class="section-title"><i class="fas fa-id-card"></i> Твоя информация</h2>
+                <div id="results">
+                    <div class="result-item">
+                        <p>Заполните форму слева, чтобы увидеть здесь вашу информацию. После сохранения вы получите уникальную ссылку, которой сможете поделиться.</p>
+                    </div>
+                </div>
+
+                <div class="share-section">
+                    <h3><i class="fas fa-share-square"></i> Поделись своей информацией</h3>
+                    <p>Отправь эту ссылку друзьям или наставникам:</p>
+                    <div class="share-link">
+                        <input type="text" id="shareUrl" placeholder="Ссылка появится здесь после заполнения формы" readonly>
+                        <button onclick="copyLink()"><i class="fas fa-copy"></i> Копировать</button>
+                    </div>
+                    <div class="yandex-link" style="margin-top: 15px;">
+                        <button onclick="openInYandex()" style="background: linear-gradient(45deg, #FF0000, #FF3333);">
+                            <i class="fab fa-yandex"></i> Открыть в Яндекс Браузере
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cat-message">
+            Бизнес-кот одобряет твои начинания! Не забывай мечтать и действовать!
+        </div>
+
+        <footer>
+            <p>© 2023 Алабуга и Большая перемена. Все права защищены.</p>
+            <p style="margin-top: 10px;">Сайт разработан для удобного сбора информации о пользователях</p>
+        </footer>
+    </div>
+
+    <script>
+        // Генерация плавающих котов
+        function generateFloatingCats() {
+            const container = document.querySelector('.floating-cats');
+            const cats = ['🐱', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾'];
+
+            for (let i = 0; i < 15; i++) {
+                const cat = document.createElement('div');
+                cat.className = 'floating-cat';
+                cat.textContent = cats[Math.floor(Math.random() * cats.length)];
+                cat.style.left = Math.random() * 100 + 'vw';
+                cat.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                cat.style.animationDelay = Math.random() * 5 + 's';
+                cat.style.fontSize = (Math.random() * 3 + 2) + 'rem';
+                container.appendChild(cat);
+            }
+        }
+
+        // Обработка загрузки фото
+        document.getElementById('photoUpload').addEventListener('change', function(e) {
+const file = e.target.files[0];
+            if (!file) return;
+
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Файл слишком большой! Максимальный размер 2MB');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('photoPreview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                document.querySelector('.photo-placeholder').style.display = 'none';
+            }
+            reader.readAsDataURL(file);
+        });
+
+        // Сохранение данных пользователя
+        function saveUserData(userData) {
+            // В реальном приложении здесь был бы вызов к серверу
+            // Для демонстрации сохраняем в sessionStorage
+            const userId = 'user_' + Date.now();
+            sessionStorage.setItem(userId, JSON.stringify(userData));
+            return userId;
+        }
+
+        // Получение данных пользователя
+        function getUserData(userId) {
+            return JSON.parse(sessionStorage.getItem(userId));
+        }
+
+        // Форматирование данных для отображения
+        function formatUserData(userData) {
+            let photoHtml = '';
+            if (userData.photo) {
+                photoHtml = <img src="${userData.photo}" alt="Ваше фото" class="user-photo">;
+            }
+
+            return
+                ${photoHtml}
+                <div class="result-item">
+                    <h3><i class="fas fa-user"></i> Основная информация</h3>
+                    <p><strong>Имя:</strong> ${userData.name}</p>
+                    <p><strong>Откуда:</strong> ${userData.location}</p>
+                    <p><strong>Возраст:</strong> ${userData.age} лет</p>
+                    <p><strong>Класс:</strong> ${userData.grade}</p>
+                </div>
+
+                <div class="result-item">
+                    <h3><i class="fas fa-book"></i> Интересы</h3>
+                    <p><strong>Любимая книга/фильм/сериал:</strong> ${userData.favorites}</p>
+                    <p><strong>Увлечения:</strong> ${userData.hobbies}</p>
+                </div>
+
+                <div class="result-item">
+                    <h3><i class="fas fa-star"></i> Мечты и планы</h3>
+                    <p>${userData.dream}</p>
+                </div>
+            ;
+        }
+
+        // Копирование ссылки в буфер обмена
+        function copyLink() {
+            const copyText = document.getElementById("shareUrl");
+            if (!copyText.value) {
+                alert("Сначала заполните форму и нажмите 'Сохранить'");
+                return;
+            }
+
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+
+            alert("Ссылка скопирована в буфер обмена!");
+        }
+
+        // Открыть в Яндекс Браузере
+        function openInYandex() {
+            const url = document.getElementById("shareUrl").value;
+            if (!url) {
+                alert("Сначала заполните форму и нажмите 'Сохранить'");
+                return;
+            }
+
+            // Для Яндекс Браузера
+            const yandexUrl = yandexbrowser-open-url://${encodeURIComponent(url)};
+            window.location.href = yandexUrl;
+
+            // Если не получилось открыть в Яндекс, открываем в текущем браузере
+            setTimeout(() => {
+                window.open(url, '_blank');
+            }, 500);
+        }
+
+        // Обработка отправки формы
+        document.getElementById('userForm').addEventListener('submit', function(e) {
