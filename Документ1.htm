@@ -137,6 +137,12 @@ border: none;
             cursor: pointer;
             margin-top: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
         }
         
         .photo-section {
@@ -147,17 +153,17 @@ border: none;
         }
         
         .photo-preview {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
+            width: 250px;
+            height: 180px;
             background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #4CAF50;
+            border: 3px solid #4CAF50;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             margin-bottom: 12px;
             position: relative;
+            border-radius: 8px;
         }
         
         .photo-preview img {
@@ -178,28 +184,33 @@ border: none;
             flex-direction: column;
             align-items: center;
             gap: 8px;
+            width: 100%;
+            max-width: 250px;
         }
         
         .photo-btn {
             background: linear-gradient(45deg, #2196F3, #0D47A1);
-            width: auto;
-            padding: 10px 20px;
-            border-radius: 30px;
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             font-size: 0.95rem;
+            text-align: center;
         }
         
         .user-photo {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
+            width: 100%;
+            max-width: 250px;
+            height: 180px;
             object-fit: cover;
-            border: 2px solid #4CAF50;
+            border: 3px solid #4CAF50;
             margin: 0 auto 15px;
             display: block;
+            border-radius: 8px;
         }
         
         .result-item {
@@ -264,7 +275,7 @@ border: none;
         
         .yandex-link button {
             background: linear-gradient(45deg, #FF0000, #FF3333);
-        }
+}
         
         .hosting-section {
             background: rgba(40, 45, 60, 0.9);
@@ -276,7 +287,7 @@ border: none;
         
         .hosting-buttons {
             display: flex;
-flex-direction: column;
+            flex-direction: column;
             gap: 10px;
             margin-top: 15px;
         }
@@ -317,6 +328,40 @@ flex-direction: column;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             z-index: 1000;
             display: none;
+            animation: fadeInOut 3s ease-in-out;
+        }
+        
+        .instructions {
+            background: rgba(50, 55, 70, 0.9);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .instructions h4 {
+            color: #FFD700;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .instructions a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .instructions a:hover {
+            text-decoration: underline;
         }
         
         footer {
@@ -326,6 +371,13 @@ flex-direction: column;
             color: #aaa;
             font-size: 0.85rem;
             background: rgba(15, 20, 30, 0.9);
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0; top: 10px; }
+            20% { opacity: 1; top: 20px; }
+            80% { opacity: 1; top: 20px; }
+            100% { opacity: 0; top: 10px; }
         }
         
         @media (min-width: 768px) {
@@ -342,6 +394,18 @@ flex-direction: column;
                 flex-direction: row;
                 justify-content: center;
             }
+            
+            .content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+            
+            .photo-preview {
+                width: 100%;
+                max-width: 300px;
+                height: 200px;
+            }
         }
     </style>
 </head>
@@ -351,8 +415,8 @@ flex-direction: column;
     <div class="container">
         <header>
             <div class="logos">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Logoprintrus.png/1600px-Logoprintrus.png" alt="Алабуга" class="logo">
-                <img src="https://sun9-19.userapi.com/impg/b6j9by20MDnRbaY3WTfQHSyIAcsqprRYYVL-RQ/6nw-w7P4FRA.jpg?size=604x402&quality=95&sign=3ffe2ef87dbbc9198b6a6ae7dba37622&type=album" alt="Большая перемена" class="logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Logo_alabuga.jpg/320px-Logo_alabuga.jpg" alt="Алабуга" class="logo">
+<img src="https://большаяперемена.онлайн/static/img/bp-mono-white.svg" alt="Большая перемена" class="logo">
             </div>
             <h2>Сбор информации о пользователях</h2>
         </header>
@@ -374,9 +438,8 @@ flex-direction: column;
                     <div class="photo-upload">
                         <input type="file" id="photoUpload" accept="image/*" style="display: none;">
                         <button class="photo-btn" onclick="document.getElementById('photoUpload').click()">
-                            <i class="fas fa-upload"></i> Загрузить фото
+                            <i class="fas fa-upload"></i> Загрузить фото (до 10 МБ)
                         </button>
-                        <small>Макс. размер: 2MB</small>
                     </div>
                 </div>
                 
@@ -384,7 +447,7 @@ flex-direction: column;
                     <div class="form-group">
                         <label for="name"><i class="fas fa-user"></i> Как тебя зовут?</label>
                         <input type="text" id="name" required placeholder="Введите ваше имя">
-</div>
+                    </div>
                     
                     <div class="form-group">
                         <label for="location"><i class="fas fa-map-marker-alt"></i> Откуда ты?</label>
@@ -392,22 +455,14 @@ flex-direction: column;
                     </div>
                     
                     <div class="form-group">
-                        <label for="age"><i class="fas fa-birthday-cake"></i> Сколько тебе лет?</label>
-                        <input type="number" id="age" min="7" max="99" required placeholder="Ваш возраст">
+                        <label for="age"><i class="fas fa-birthday-cake"></i> Сколько тебе лет? (14-18)</label>
+                        <input type="number" id="age" min="14" max="18" required placeholder="14-18 лет">
                     </div>
                     
                     <div class="form-group">
                         <label for="grade"><i class="fas fa-graduation-cap"></i> В каком ты классе?</label>
                         <select id="grade" required>
                             <option value="">Выберите класс</option>
-                            <option value="1">1 класс</option>
-                            <option value="2">2 класс</option>
-                            <option value="3">3 класс</option>
-                            <option value="4">4 класс</option>
-                            <option value="5">5 класс</option>
-                            <option value="6">6 класс</option>
-                            <option value="7">7 класс</option>
-                            <option value="8">8 класс</option>
                             <option value="9">9 класс</option>
                             <option value="10">10 класс</option>
                             <option value="11">11 класс</option>
@@ -416,7 +471,7 @@ flex-direction: column;
                     
                     <div class="form-group">
                         <label for="favorites"><i class="fas fa-book"></i> Любимая книга/фильм/сериал</label>
-                        <textarea id="favorites" required placeholder="Расскажите о ваших предпочтениях в книгах, фильмах или сериалах"></textarea>
+                        <textarea id="favorites" required placeholder="Расскажите о ваших предпочтениях"></textarea>
                     </div>
                     
                     <div class="form-group">
@@ -426,18 +481,18 @@ flex-direction: column;
                     
                     <div class="form-group">
                         <label for="hobbies"><i class="fas fa-heart"></i> Чем ты увлекаешься?</label>
-                        <textarea id="hobbies" required placeholder="Расскажите о ваших увлечениях и хобби"></textarea>
+                        <textarea id="hobbies" required placeholder="Расскажите о ваших увлечениях"></textarea>
                     </div>
                     
                     <button type="submit"><i class="fas fa-share-alt"></i> Сохранить и получить ссылку</button>
-                </form>
+</form>
             </div>
             
             <div class="form-section">
                 <h2 class="section-title"><i class="fas fa-id-card"></i> Просмотр информации</h2>
                 <div id="results">
                     <div class="result-item">
-                        <p>Заполните форму выше, чтобы увидеть здесь вашу информацию. После сохранения вы получите уникальную ссылку.</p>
+                        <p>Заполните форму слева, чтобы увидеть здесь вашу информацию. После сохранения вы получите уникальную ссылку.</p>
                     </div>
                 </div>
                 
@@ -446,11 +501,11 @@ flex-direction: column;
                     <p>Отправь эту ссылку друзьям или наставникам:</p>
                     <div class="share-link">
                         <input type="text" id="shareUrl" placeholder="Ссылка появится здесь" readonly>
-                        <button onclick="copyLink()"><i class="fas fa-copy"></i> Копировать</button>
+                        <button onclick="copyLink()"><i class="fas fa-copy"></i></button>
                     </div>
                     <div class="yandex-link">
                         <button onclick="openInYandex()">
-<i class="fab fa-yandex"></i> Открыть в Яндекс
+                            <i class="fab fa-yandex"></i> Открыть в Яндекс
                         </button>
                     </div>
                 </div>
@@ -459,19 +514,22 @@ flex-direction: column;
                     <h3><i class="fas fa-cloud-upload-alt"></i> Загрузить на хостинг</h3>
                     <p>Получи постоянную ссылку на ваш сайт:</p>
                     <div class="hosting-buttons">
-                        <button class="hosting-btn" onclick="showHostingInfo()">
+                        <button class="hosting-btn" onclick="toggleInstructions()">
                             <i class="fas fa-info-circle"></i> Инструкция
                         </button>
                     </div>
-                    <div id="hostingInfo" style="display: none; margin-top: 15px; text-align: left; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
-                        <p><strong>Как разместить сайт:</strong></p>
-                        <ol style="margin: 10px 0 10px 20px;">
-                            <li>Скопируйте весь код этой страницы (Ctrl+A, затем Ctrl+C)</li>
-                            <li>Откройте <a href="https://replit.com" target="_blank" style="color: #4CAF50;">Replit.com</a></li>
-                            <li>Создайте новый HTML/CSS/JS проект</li>
+                    <div id="instructions" class="instructions">
+                        <h4>Как разместить сайт:</h4>
+                        <ol>
+                            <li>Скопируйте весь код этой страницы (нажмите Ctrl+A затем Ctrl+C)</li>
+                            <li>Откройте <a href="https://replit.com" target="_blank">Replit.com</a> в браузере</li>
+                            <li>Создайте новый проект (выберите "HTML, CSS, JS")</li>
                             <li>Замените содержимое файла index.html на скопированный код</li>
-                            <li>Нажмите "Run" и используйте полученную ссылку</li>
+                            <li>Нажмите кнопку "Run" вверху</li>
+                            <li>Скопируйте URL из адресной строки браузера</li>
+                            <li>Поделитесь этой ссылкой с другими</li>
                         </ol>
+                        <p>Теперь ваш сайт доступен по постоянной ссылке!</p>
                     </div>
                 </div>
             </div>
@@ -483,17 +541,18 @@ flex-direction: column;
         
         <footer>
             <p>© 2023 Алабуга и Большая перемена. Все права защищены.</p>
+            <p>Форма для участников 14-18 лет (9-11 классы)</p>
         </footer>
     </div>
     
     <script>
-        // Обработка загрузки фото
+        // Обработка загрузки фото (до 10 МБ)
         document.getElementById('photoUpload').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
             
-            if (file.size > 2 * 1024 * 1024) {
-                alert('Файл слишком большой! Максимальный размер 2MB');
+            if (file.size > 10 * 1024 * 1024) {
+                showNotification('Файл слишком большой! Максимальный размер 10MB');
                 return;
             }
             
@@ -505,7 +564,7 @@ flex-direction: column;
                 document.querySelector('.photo-placeholder').style.display = 'none';
             }
             reader.readAsDataURL(file);
-        });
+});
         
         // Сохранение данных пользователя в localStorage
         function saveUserData(userData) {
@@ -526,7 +585,7 @@ flex-direction: column;
                 photoHtml = <img src="${userData.photo}" alt="Ваше фото" class="user-photo">;
             }
             
-            return `
+            return 
                 ${photoHtml}
                 <div class="result-item">
                     <h3><i class="fas fa-user"></i> Основная информация</h3>
@@ -535,7 +594,8 @@ flex-direction: column;
                     <p><strong>Возраст:</strong> ${userData.age} лет</p>
                     <p><strong>Класс:</strong> ${userData.grade}</p>
                 </div>
-<div class="result-item">
+                
+                <div class="result-item">
                     <h3><i class="fas fa-book"></i> Интересы</h3>
                     <p><strong>Любимая книга/фильм/сериал:</strong> ${userData.favorites}</p>
                     <p><strong>Увлечения:</strong> ${userData.hobbies}</p>
@@ -545,7 +605,7 @@ flex-direction: column;
                     <h3><i class="fas fa-star"></i> Мечты и планы</h3>
                     <p>${userData.dream}</p>
                 </div>
-            `;
+            ;
         }
         
         // Показать уведомление
@@ -572,7 +632,7 @@ flex-direction: column;
             
             try {
                 navigator.clipboard.writeText(copyText.value);
-                showNotification("Ссылка скопирована!");
+                showNotification("Ссылка скопирована в буфер обмена!");
             } catch (err) {
                 showNotification("Ошибка копирования: " + err);
             }
@@ -590,10 +650,10 @@ flex-direction: column;
             window.open('yandexbrowser-open-url://' + encodeURIComponent(url), '_blank');
         }
         
-        // Показать инструкцию по хостингу
-        function showHostingInfo() {
-            const info = document.getElementById('hostingInfo');
-            info.style.display = info.style.display === 'none' ? 'block' : 'none';
+        // Показать/скрыть инструкции
+        function toggleInstructions() {
+            const instructions = document.getElementById('instructions');
+            instructions.style.display = instructions.style.display === 'block' ? 'none' : 'block';
         }
         
         // Обработка отправки формы
@@ -604,27 +664,3 @@ flex-direction: column;
             const userData = {
                 name: document.getElementById('name').value,
                 location: document.getElementById('location').value,
-                age: document.getElementById('age').value,
-                grade: document.getElementById('grade').options[document.getElementById('grade').selectedIndex].text,
-                favorites: document.getElementById('favorites').value,
-                dream: document.getElementById('dream').value,
-                hobbies: document.getElementById('hobbies').value,
-                photo: document.getElementById('photoPreview').src || ''
-            };
-            
-            // Сохранение данных
-            const userId = saveUserData(userData);
-            
-            // Формирование ссылки
-            const shareUrl = window.location.href.split('?')[0] + '?id=' + userId;
-            document.getElementById('shareUrl').value = shareUrl;
-            
-            // Отображение данных
-            document.getElementById('results').innerHTML = formatUserData(userData);
-            
-            showNotification('Данные сохранены! Ссылка сгенерирована.');
-        });
-        
-        // Проверка параметров URL при загрузке страницы
-        window.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
